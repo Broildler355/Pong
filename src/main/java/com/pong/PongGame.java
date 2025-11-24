@@ -14,6 +14,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
     private int aiScore;
     private Ball ball;
     // step 1 add any other private variables you may need to play the game.
+    private SlowDown slow;
 
     public PongGame() {
 
@@ -29,7 +30,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
         ball = new Ball(200, 200, 10, 3, Color.RED, 10);
 
         //create any other objects necessary to play the game.
-
+        slow = new SlowDown(100, 200, 100, 100);
     }
 
     // precondition: None
@@ -57,7 +58,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
         aiPaddle.draw(g);
         
         //call the "draw" function of any visual component you'd like to show up on the screen.
-
+        slow.draw(g);
     }
 
     // precondition: all required visual components are intialized to non-null
@@ -67,7 +68,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
         //add commands here to make the game play propperly
         
         aiPaddle.moveY(ball.getY());
-
+        ball.moveBall();
         if (aiPaddle.isTouching(ball)) {
            ball.reverseX();
         }
