@@ -1,5 +1,7 @@
 package com.pong;
-
+//Fouad Kadry
+//12/3/25
+//This creates a replica of the game Pong with a new speedup zone, slowdown zone, and wall
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,6 +19,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
     // step 1 add any other private variables you may need to play the game.
     private SlowDown slow;
     private Speedup fast;
+    private Wall Wall;
 
     public PongGame() {
         ourPaddle = new Paddle(30, 240, 50, 9, Color.WHITE);
@@ -33,7 +36,8 @@ public class PongGame extends JPanel implements MouseMotionListener {
 
         //create any other objects necessary to play the game.
         slow = new SlowDown(100, 200, 100, 100);
-        fast = new Speedup(540, 200, 100, 100);
+        fast = new Speedup(440, 200, 100, 100);
+        Wall = new Wall(320,240,100, 10, Color.WHITE);
     }
 
     // precondition: None
@@ -64,6 +68,7 @@ public class PongGame extends JPanel implements MouseMotionListener {
         //call the "draw" function of any visual component you'd like to show up on the screen.
         slow.draw(g);
         fast.draw(g);
+        Wall.draw(g);
     }
 
     // precondition: all required visual components are intialized to non-null
@@ -88,6 +93,23 @@ public class PongGame extends JPanel implements MouseMotionListener {
             else if(ball.getChangeY() < -1) {
                 ball.setChangey(ball.getChangeY()+1);
             }
+        }
+        if(fast.isTouching(ball)) {
+            if(ball.getChangeX() > 1) {
+                ball.setChangeX(ball.getChangeX()+1);
+            }
+            else if(ball.getChangeX() < -1) {
+                ball.setChangeX(ball.getChangeX()-1);
+            }
+            if(ball.getChangeY() > 1) {
+                ball.setChangey(ball.getChangeY()+1);
+            }
+            else if(ball.getChangeY() < -1) {
+                ball.setChangey(ball.getChangeY()-1);
+            }
+        }
+        if (Wall.isTouching(ball)) {
+            ball.reverseX();
         }
         if (aiPaddle.isTouching(ball)) {
            ball.reverseX();
